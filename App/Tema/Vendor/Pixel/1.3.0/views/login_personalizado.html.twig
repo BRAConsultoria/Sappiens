@@ -1,0 +1,189 @@
+<!DOCTYPE html >
+<!--[if IE 8]>
+<html class="ie8" lang="pt-BR">
+<![endif]--><!--[if IE 9]>
+<html class="ie9 gt-ie8" lang="pt-BR">
+<![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="gt-ie8 gt-ie9 not-ie" lang="pt-BR">
+    <!--<![endif]-->
+    <head >
+        <title>Login - {{pageHeader.titulo}} - [{{pageHeader.versao}}]</title>
+        {% block meta %}
+            {% include 'meta.html.twig' %}
+        {% endblock %}
+
+        {% block css %}
+            {% include 'css.html.twig' %}
+        {% endblock %}
+        <script>var init = [];</script>
+
+        <script src="{{ urlBaseTema('libs/jquery/2.0.3/jquery.min.js') }}" >
+        </script>
+        <script data-pace-options='{ "restartOnRequestAfter": true }' src="{{ urlBaseTema('libs/jquery/plugins/jquery-pace/0.5.6/pace.min.js') }}"></script>
+        <script src="{{ urlBaseTema('libs/jquery/2.0.3/jquery.min.js') }}" >
+        </script>
+        <script>var init = [];</script>
+        <link href="{{ urlBaseTema('stylesheets/login.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ urlBaseTema('javascripts/login-prescripts.js') }}" ></script>
+        <script src="{{ urlBaseTema('javascripts/login-postscripts.js') }}" ></script>
+    </head>
+<body class="theme-default page-signin" >
+    <div id="page-signin-bg" >
+        <div class="overlay" >
+        </div>
+        <img src="{{ urlBaseTema('demo/signin-bg-4.jpg') }}" >
+    </div>
+    <div class="signin-container" >
+        <div class="signin-info" >
+            <a href="#" class="logo" >
+                <img src="{{ urlBaseTema('demo/logo-big.png') }}" style="margin-top: -5px;" >
+                &nbsp;{{ pageHeader.titulo }}</a>
+            <div class="slogan" >
+                {{ pageHeader.slogan }}</div>
+            <ul >
+                <li>
+                    <i class="fa fa-sitemap signin-icon" >
+                    </i>
+                    Estrutura modular flexível
+                </li>
+                <li>
+                    <i class="fa fa-file-text-o signin-icon" >
+                    </i>
+                    HTML5, Ajax, CSS3 e SCSS
+                </li>
+                <li>
+                    <i class="fa fa-outdent signin-icon" >
+                    </i>
+                    Solução multipropósito
+                </li>
+                <li>
+                    <i class="fa fa-fire signin-icon" >
+                    </i>
+                    Construído em Cuiabá
+                </li>                
+                <li>
+                    <i class="fa fa-coffee signin-icon" >
+                    </i>
+                    Pensado com café
+                </li>
+                <li>
+                    <i class="fa fa-heart signin-icon" >
+                    </i>
+                    Adoçado com amor
+                </li>                
+            </ul>
+        </div>
+        {% if retorno.reset is not defined %} 
+        <div class="signin-form" >
+            <form id="signin-form_id" action="./" method="post" >
+                <input type="hidden" id="acao" name="acao" value="getAuth" >
+                <div class="signin-text" >
+                    <span >
+                        {{ retorno.login is defined and retorno.login.sucesso == false ? retorno.login.mensagem : 'Acesse sua conta'}}
+                    </span>
+                </div>
+                <div class="form-group w-icon" >
+                    <input type="text" id="username_id" name="email" class="form-control input-lg" placeholder="Email" value="{{ retorno.login.email|length > 0 ? retorno.login.email : ''}}" >
+                    <span class="fa fa-user signin-form-icon" >
+                    </span>
+                </div>
+                <div class="form-group w-icon" >
+                    <input type="password" id="password_id" name="signin_password" class="form-control input-lg" placeholder="Senha" >
+                    <span class="fa fa-lock signin-form-icon" >
+                    </span>
+                </div>
+                <div class="form-actions" >
+                    <input type="submit" id="submit_id" value="Acessar" class="signin-btn bg-primary" >
+                    <a href="#" class="forgot-password" id="forgot-password-link" >
+                        Esqueceu sua senha? </a>
+                </div>
+                <!--
+                <div class="signin-with" >
+                    <a href="#" class="signin-with-btn" style="background:#4f6faa;background:rgba(79, 111, 170, .8);" >
+                        Acessar com <span >
+                            Facebook </span>
+                    </a>
+                </div>
+                -->
+            </form>
+            <div id="password-reset-form" class="password-reset-form" style="display:{{ retorno.recovery is defined ? 'block' : 'none'}}">
+                <div class="header" >
+                    <div class="signin-text" >
+                        <span >
+                            Redefinir senha </span>
+                        <div class="close" >
+                            &times;</div>
+                    </div>
+                </div>
+                <form id="signin-form_id" action="./" method="post" >
+                    {% if retorno.recovery is defined %}
+                    <span>
+                        {{ retorno.recovery.mensagem }} <span class="negrito">{{ retorno.recovery.sucesso ? retorno.recovery.email : ''}}</span>
+                        <br />
+                        <br />
+                    </span>
+                    {% endif %}
+                    <div class="form-group w-icon" >
+                        <input type="text" id="p_email_id" name="email" required="required" value="{{ retorno.recovery.email|length > 0 ? retorno.recovery.email : ''}}" class="form-control input-lg" placeholder="Informe o seu email" >
+                        <span class="fa fa-envelope signin-form-icon" >
+                        </span>
+                    </div>
+                    <div class="form-actions">
+                        <input type="hidden" name="recovery" value="true" />
+                        <input type="hidden" id="acao" name="acao" value="recovery" />
+                        <input type="submit" value="Enviar nova senha" class="signin-btn bg-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+            <!-- RESET -->
+        <div class="signin-form" >
+                <div class="header" >
+                    <div class="signin-text" >
+                        <span >
+                            Redefinir senha </span>
+                        <div class="close" >
+                        </div>
+                    </div>
+                </div>
+                {% if retorno.reset.sucesso != true %}
+                <form id="password-reset-form-id" action="#" method="post" >
+                    <span class="negrito italico" style="display:{{ retorno.reset.sucesso is defined ? 'block' : 'none'}};" >
+                        {{ retorno.reset.mensagem }}<br /><br />
+                    </span>
+                    <div class="form-group w-icon" >
+                        <input type="password" id="new_password" name="new_password" required="required" class="form-control input-lg" placeholder="Nova Senha" >
+                        <span class="fa fa-lock signin-form-icon" >
+                        </span>
+                    </div>
+                    <div class="form-group w-icon" >
+                        <input type="password" id="new_password_b" required="required" name="new_password_b" class="form-control input-lg" placeholder="Repita a Senha" >
+                        <span class="fa fa-lock signin-form-icon" >
+                        </span>
+                    </div>
+                    <div class="form-actions" >
+                        <input type="hidden" id="acao" name="acao" value="setNewPass" />
+                        <input type="hidden" id="email" name="email" value="{{ retorno.reset.email }}" />
+                        <input type="hidden" id="hash" name="hash" value="{{ retorno.reset.hash }}" />
+                        <input type="submit" value="Cadastrar nova senha" class="signin-btn bg-primary" />
+                    </div>
+                </form>
+                {% else %}
+                <span>
+                    Sua senha foi redefinida com sucesso. Para continuar, clique no link abaixo. 
+                    <br />
+                    <br />
+                    <a href="?"><h3>Login</h3></a>
+                </span>
+                {% endif %}
+        </div>
+        <!-- FIM RESET -->
+    {% endif %}
+    </div>
+    <div class="not-a-member" >
+    </div>
+    {% include 'js_footer.html.twig' %}
+</body>
+</html>

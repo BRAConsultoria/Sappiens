@@ -1,0 +1,86 @@
+<form 
+    class="{{ form.formConfig.classCss ? form.formConfig.classCss : 'form-horizontal' }}"
+    name="{{ form.formConfig.nome }}" 
+    id="{{ form.formConfig.id ? form.formConfig.id : form.formConfig.nome }}" 
+    method="{{ form.formConfig.method ? form.formConfig.method : 'POST' }}"              
+    novalidate="{{ form.formConfig.novalidate ? form.formConfig.method : 'novalidate' }}"
+
+    {% if form.formConfig.action %}
+        action="{{ form.formConfig.action }}"
+    {% endif %}
+
+    {% if form.formConfig.autoComplete %}
+        autocomplete="{{ form.formConfig.autoComplete }}"
+    {% endif %}
+
+    {% if form.formConfig.enctype %}
+        enctype="{{ form.formConfig.enctype }}"
+    {% endif %}
+
+    {% if form.formConfig.target %}
+        target="{{ form.formConfig.target }}"
+    {% endif %}
+
+    {% if form.formConfig.complemento %}
+        {{ form.formConfig.complemento }} 
+    {% endif %}
+    >
+
+    {% for chave, campo in form.campos %}
+
+        {% if form.tipos[chave] == 'hidden' %}
+            {{ campo | raw }}
+        {% elseif form.tipos[chave] != 'layout' %}
+            
+            <div id="sisFormId{{chave}}" class="col-sm-{{form.colunas[chave]}}">
+
+                {% if form.tipos[chave] == 'masterDetail' %}
+                    <h4>
+                        <div id="accordion" class="col-sm-12 has-feedback note note-success no-margin no-padding">                                               
+                            <a class="accordion-toggle collapsed" style="text-decoration: none;" data-toggle="collapse" data-parent="#accordion" href="#col{{chave}}">
+                                {{ form.identifica[chave] }} 
+                            </a>                          
+                        </div>
+                    </h4>                             
+                    <div class="col-sm-12 has-feedback note panel-collapse collapse" id="col{{chave}}">
+                        {{ campo | raw }}
+                    </div>                 
+
+                {% else %}
+                    <div class="form-group">
+                        <label for="{{chave}}" class="col-sm-{{form.offsetColunaA[chave]}} control-label">
+                            {{form.identifica[chave]}}
+                        </label>
+                        <div class="col-sm-{{form.offsetColunaB[chave]}} has-feedback">
+                            {{ campo | raw }}
+                            {% if form.iconFA[chave] %}
+                                <span class="{{ form.iconFA[chave] }} "></span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            {{ campo | raw }} 
+        {% endif %}
+
+    {% endfor %}
+
+    {% if form.botoes | length > 0 %}
+        <div class="form-group">
+            <div class="col-sm-12">
+                <hr class="panel-wide">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                {% for botoes in form.botoes %}
+                    {{ botoes | raw}}
+                {% endfor %}
+            </div>
+        </div>   
+    {% endif %}
+</form>
+
+{{ form.javascript | raw }}
